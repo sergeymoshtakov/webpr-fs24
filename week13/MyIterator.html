@@ -6,31 +6,20 @@
 <body>
 <script>
 
-    myIteratorCtor = () => {
-        next: () => {
-            return {value: 0, done: false}
-        }
-    }
 
-    const xxx = "foo";
-
-    myIterable = (startValue, whileFn, incFun) => {
-        let currentValue = startValue;
-        return {
-            [Symbol.iterator] : () => ({
-                next: () => ({value:currentValue = incFun(currentValue), 
-                    done: ! whileFn(currentValue)})
+    const MyIterable = (currentValue, whileFn, incFn) => ({
+        [Symbol.iterator] : () => ({
+            next: () => ({
+                value: currentValue = incFn(currentValue),
+                done: ! whileFn(currentValue)
             })
-        };
-    }
-
-    const [a, b, c] = myIterable(0, i => i < 5, i => i + 1);
-
-    console.log([...myIterable(0, i => i < 10, i => i + 1)].slice(0,4).reduce((a,b) => a + b));
-
-    for(const i of myIterable(0, i => i < 5, i => i + 1)){
+        })
+    });
+    for(const i of MyIterable(900, x=>x<1000, x=>x+1)) {
         console.log(i);
     }
+    const [a,b,c]  = MyIterable("x", x=>true, x=>x+"x");
+    console.log(a,b,c);
 </script>
 </body>
 </html>
